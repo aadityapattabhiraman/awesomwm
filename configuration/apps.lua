@@ -28,6 +28,7 @@ return {
     'nm-applet --indicator', -- wifi
     --'xrandr --output eDP-1 --mode 2560x1440 --rate 60',
     --'element-desktop-nightly',
+    'sh ~/Programs/hdmi.sh',
     'terminator',
     -- 'subl',
     -- 'tor-browser',
@@ -41,7 +42,7 @@ return {
      --'synology-drive -minimized',
      --'steam -silent',
     'feh --randomize --bg-fill ~/.wallpapers/*',
-    '/usr/bin/variety',
+    --'/usr/bin/variety',
     -- Add applications that need to be killed between reloads
     -- to avoid multipled instances, inside the awspawn script
     '~/.config/awesome/configuration/awspawn' -- Spawn "dirty" apps that can linger between sessions

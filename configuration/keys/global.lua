@@ -252,93 +252,83 @@ local globalKeys =
     end,
     {description = 'restore minimized', group = 'client'}
   ),
-  -- Dropdown application
-  awful.key(
-    {modkey},
-    'z',
-    function()
-      _G.toggle_quake()
-    end,
-    {description = 'dropdown application', group = 'launcher'}
-  ),
-  -- Widgets popups
-  --[[awful.key(
-    {altkey},
-    'h',
-    function()
-      if beautiful.fs then
-        beautiful.fs.show(7)
-      end
-    end,
-    {description = 'Show filesystem', group = 'widgets'}
-  ),
-  awful.key(
-    {altkey},
-    'w',
-    function()
-      if beautiful.weather then
-        beautiful.weather.show(7)
-      end
-    end,
-    {description = 'Show weather', group = 'widgets'}
-  ),--]]
   -- Brightness
   awful.key(
-    {},
-    'XF86MonBrightnessUp',
+    {modkey},
+    'Left',
     function()
-      awful.spawn('xbacklight -inc 10')
+      awful.spawn('xrandr --output eDP-1 --brightness 0.8')
     end,
-    {description = '+10%', group = 'hotkeys'}
-  ),
+    {description = 'decrease brightness', group = 'hotkeys'}
+),
   awful.key(
-    {},
-    'XF86MonBrightnessDown',
+    {modkey},
+    'Right',
     function()
-      awful.spawn('xbacklight -dec 10')
+      awful.spawn('xrandr --output eDP-1 --brightness 1')
     end,
     {description = '-10%', group = 'hotkeys'}
   ),
   -- ALSA volume control
   awful.key(
-    {},
-    'XF86AudioRaiseVolume',
+    {modkey},
+    'Up',
     function()
-      awful.spawn('amixer -D pulse sset Master 5%+')
+      awful.spawn('/usr/bin/amixer sset Master 5%+', function(stdout, stderr, reason, code)
+        print(stdout, stderr, reason, code)
+      end)
     end,
     {description = 'volume up', group = 'hotkeys'}
   ),
   awful.key(
-    {},
-    'XF86AudioLowerVolume',
+    {modkey},
+    'Down',
     function()
-      awful.spawn('amixer -D pulse sset Master 5%-')
+      awful.spawn('/usr/bin/amixer sset Master 5%-', function(stdout, stderr, reason, code)
+        print(stdout, stderr, reason, code)
+      end)
     end,
     {description = 'volume down', group = 'hotkeys'}
   ),
   awful.key(
-    {},
-    'XF86AudioMute',
+    {modkey},
+    'F7',
     function()
-      awful.spawn('amixer -D pulse set Master 1+ toggle')
+      awful.spawn('amixer set Master 1+ toggle')
     end,
     {description = 'toggle mute', group = 'hotkeys'}
   ),
   awful.key(
-    {},
-    'XF86AudioNext',
+    {modkey},
+    ',',
     function()
-      --
+      awful.spawn('variety -p')
     end,
-    {description = 'toggle mute', group = 'hotkeys'}
+    {description = 'previous wallpaper', group = 'hotkeys'}
   ),
   awful.key(
-    {},
-    'XF86PowerDown',
+    {modkey},
+    '.',
     function()
-      --
+      awful.spawn('variety -n')
     end,
-    {description = 'toggle mute', group = 'hotkeys'}
+    {description = 'next wallpaper', group = 'hotkeys'}
+  ),
+  awful.key(
+    {modkey},
+    'm',
+    function()
+      awful.spawn('sh -c "sed -i \'s/inactive-opacity = 0.8/inactive-opacity = 1.0/g; s/active-opacity = 0.8/active-opacity = 1.0/g\' ~/.config/awesome/configuration/picom.conf"')
+    end,
+    {description = 'next wallpaper', group = 'hotkeys'}
+  ),
+  awful.key(
+    {modkey},
+    'n',
+    function()
+      awful.spawn('sh -c "sed -i \'s/inactive-opacity = 1.0/inactive-opacity = 0.8/g; s/active-opacity = 1.0/active-opacity = 0.8/g\' ~/.config/awesome/configuration/picom.conf"')
+    end,
+    {description = 'next wallpaper', group = 'hotkeys'}
   ),
   awful.key(
     {},
@@ -370,37 +360,12 @@ local globalKeys =
     end,
     {description = 'Open default program for tag/workspace', group = 'tag'}
   ),
-  -- Custom hotkeys
-  -- vfio integration
-  awful.key(
-    {'Control',altkey},
-    'space',
-    function()
-      awful.util.spawn_with_shell('vm-attach attach')
-    end
-  ),
   -- Lutris hotkey
   awful.key(
     {modkey},
     'g',
     function()
       awful.util.spawn_with_shell('lutris')
-    end
-  ),
-  -- System Monitor hotkey
-  awful.key(
-    {modkey},
-    'm',
-    function()
-      awful.util.spawn_with_shell('mate-system-monitor')
-    end
-  ),
-  -- Kill VLC
-  awful.key(
-    {modkey},
-    'v',
-    function()
-      awful.util.spawn_with_shell('killall -9 vlc')
     end
   ),
   -- File Manager
@@ -411,15 +376,6 @@ local globalKeys =
       awful.util.spawn(apps.default.files)
     end,
     {description = 'filebrowser', group = 'hotkeys'}
-  ),
-  -- Emoji Picker
-  awful.key(
-    {modkey},
-    'a',
-    function()
-      awful.util.spawn_with_shell('ibus emoji')
-    end,
-    {description = 'Open the ibus emoji picker to copy an emoji to your clipboard', group = 'hotkeys'}
   )
 )
 
