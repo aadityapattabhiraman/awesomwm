@@ -69,3 +69,13 @@ _G.client.connect_signal(
     c.border_color = beautiful.border_normal
   end
 )
+
+-- Load notifications module
+local notifications = require('module.notifications')
+
+-- Display notification on startup (optional)
+awful.spawn.with_shell(
+  function()
+    notifications.log_this('Awesome WM Started', 'Your config is loaded!')
+  end
+)

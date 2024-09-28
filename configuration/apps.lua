@@ -25,7 +25,8 @@ return {
   -- List of apps to start once on start-up
   run_on_start_up = {
     'picom --config ' .. filesystem.get_configuration_dir() .. '/configuration/picom.conf',
-    'nm-applet --indicator', -- wifi
+    'nm-applet --indicator',
+    'dunst', -- wifi
     --'xrandr --output eDP-1 --mode 2560x1440 --rate 60',
     --'element-desktop-nightly',
     'sh ~/Programs/hdmi.sh',
@@ -45,6 +46,7 @@ return {
     --'/usr/bin/variety',
     -- Add applications that need to be killed between reloads
     -- to avoid multipled instances, inside the awspawn script
-    '~/.config/awesome/configuration/awspawn' -- Spawn "dirty" apps that can linger between sessions
+    '~/.config/awesome/configuration/awspawn', -- Spawn "dirty" apps that can linger between sessions,
+    
   }
 }

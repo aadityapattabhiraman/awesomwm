@@ -1,32 +1,25 @@
-local naughty = require('naughty')
-local beautiful = require('beautiful')
+-- notifications.lua (Dunst version)
+local awful = require('awful')
 local gears = require('gears')
-local dpi = require('beautiful').xresources.apply_dpi
 
--- Naughty presets
-naughty.config.padding = 8
-naughty.config.spacing = 8
-
-naughty.config.defaults.timeout = 5
-naughty.config.defaults.screen = 1
-naughty.config.defaults.position = 'bottom_left'
-naughty.config.defaults.margin = dpi(16)
-naughty.config.defaults.ontop = true
-naughty.config.defaults.font = 'Roboto Regular 10'
-naughty.config.defaults.icon = nil
-naughty.config.defaults.icon_size = dpi(32)
-naughty.config.defaults.shape = gears.shape.rounded_rect
-naughty.config.defaults.border_width = 0
-naughty.config.defaults.hover_timeout = nil
+-- Dunst notification function
+local function dunst_notify(title, message, urgency)
+  awful.spawn.with_shell(
+    string.format(
+      "dunstify -t '%s' -m '%s' -u %s",
+      title,
+      message,
+      urgency or "normal"
+    )
+  )
+end
 
 -- Error handling
 if _G.awesome.startup_errors then
-  naughty.notify(
-    {
-      preset = naughty.config.presets.critical,
-      title = 'Oops, there were errors during startup!',
-      text = _G.awesome.startup_errors
-    }
+  dunst_notify(
+    'Oops, there were errors during startup!',
+    _G.awesome.startup_errors,
+    'critical'
   )
 end
 
@@ -40,23 +33,17 @@ do
       end
       in_error = true
 
-      naughty.notify(
-        {
-          preset = naughty.config.presets.critical,
-          title = 'Oops, an error happened!',
-          text = tostring(err)
-        }
+      dunst_notify(
+        'Oops, an error happened!',
+        tostring(err),
+        'critical'
       )
       in_error = false
     end
   )
 end
 
+-- Custom logging function
 function log_this(title, txt)
-  naughty.notify(
-    {
-      title = 'log: ' .. title,
-      text = txt
-    }
-  )
+  dunst_notify(title, txt)
 end
